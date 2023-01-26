@@ -90,3 +90,87 @@ call function 'BAPI_ADDRESSORG_GETDETAIL'
 *   BAPICOMREM     =
 *   BAPIADUSE      =
     return         = gt_return.
+    
+    
+    loop at gt_bapiad1vl.
+
+  clear: gt_bapiad1vl, gt_bapiad1vl_x.
+  gt_bapiad1vl-name = 'NEW CUST'.
+  gt_bapiad1vl_x-name = 'X'.
+  gt_bapiad1vl-name_2 = ' '.
+  gt_bapiad1vl_x-name_2 = 'X'.
+  gt_bapiad1vl-city = 'München'.
+  gt_bapiad1vl_x-city = 'X'.
+  gt_bapiad1vl-country = 'DE'.
+  gt_bapiad1vl_x-country = 'X'.
+  gt_bapiad1vl-langu = 'DE'.
+  gt_bapiad1vl_x-langu = 'DE'.
+  gt_bapiad1vl-postl_cod1 = '83420'.
+  gt_bapiad1vl_x-postl_cod1 = 'X'.
+  gt_bapiad1vl-street = 'Münchener Str.'.
+  gt_bapiad1vl_x-street = 'X'.
+  gt_bapiad1vl-street_no = '59A'.
+  gt_bapiad1vl_x-street_no = 'X'.
+  gt_bapiad1vl-addr_group = 'BC01'.
+  gt_bapiad1vl_x-addr_group = 'X'.
+  gt_bapiad1vl_x-updateflag = 'U'. " Eintrag aktualisieren
+*  gt_bapiad1vl_x-updateflag = 'D'. " Eintrag entfernen
+*  gt_bapiad1vl_x-updateflag = 'I'. " Eintrag einfügen
+
+  append:  gt_bapiad1vl_x. ", gt_bapiad1vl.
+  modify:  gt_bapiad1vl.
+
+endloop.
+
+
+call function 'BAPI_ADDRESSORG_CHANGE'
+  exporting
+    obj_type       = gv_obj_type
+    obj_id         = gv_obj_id
+    obj_id_ext     = ' '
+    context        = '001'
+*   ACCEPT_ERROR   = ' '
+*   save_address   = 'X'
+*   IV_CHECK_ADDRESS                  = 'X'
+*   IV_TIME_DEPENDENT_COMM_DATA       = ' '
+  importing
+    address_number = gv_adress_number
+  tables
+    bapiad1vl      = gt_bapiad1vl
+*   BAPIADTEL      =
+*   BAPIADFAX      =
+*   BAPIADTTX      =
+*   BAPIADTLX      =
+*   BAPIADSMTP     =
+*   BAPIADRML      =
+*   BAPIADX400     =
+*   BAPIADRFC      =
+*   BAPIADPRT      =
+*   BAPIADSSF      =
+*   BAPIADURI      =
+*   BAPIADPAG      =
+*   BAPIAD_REM     =
+*   BAPICOMREM     =
+*   BAPIADUSE      =
+    bapiad1vl_x    = gt_bapiad1vl_x
+*   BAPIADTEL_X    =
+*   BAPIADFAX_X    =
+*   BAPIADTTX_X    =
+*   BAPIADTLX_X    =
+*   BAPIADSMT_X    =
+*   BAPIADRML_X    =
+*   BAPIADX40_X    =
+*   BAPIADRFC_X    =
+*   BAPIADPRT_X    =
+*   BAPIADSSF_X    =
+*   BAPIADURI_X    =
+*   BAPIADPAG_X    =
+*   BAPIAD_RE_X    =
+*   BAPICOMRE_X    =
+*   BAPIADUSE_X    =
+    return         = gt_return.
+
+call function 'BAPI_TRANSACTION_COMMIT'.
+
+
+cl_demo_output=>display( gt_bapiad1vl ).
