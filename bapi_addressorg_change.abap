@@ -1,4 +1,3 @@
-
 *"*"Local Interface:
 *"  IMPORTING
 *"     VALUE(OBJ_TYPE) LIKE  BAPI4001_1-OBJTYPE
@@ -90,9 +89,9 @@ call function 'BAPI_ADDRESSORG_GETDETAIL'
 *   BAPICOMREM     =
 *   BAPIADUSE      =
     return         = gt_return.
-    
-    
-    loop at gt_bapiad1vl.
+
+
+loop at gt_bapiad1vl.
 
   clear: gt_bapiad1vl, gt_bapiad1vl_x.
   gt_bapiad1vl-name = 'NEW CUST'.
